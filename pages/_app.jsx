@@ -1,12 +1,15 @@
 import '../styles/globals.css'
 import Layout from '../components/Layout'
+import { UserProvider } from '@auth0/nextjs-auth0';
 
 function App({ Component, pageProps }) {
-
-    return <Layout>
-        <Component {...pageProps} />
-    </Layout>
-
+    return (
+        <UserProvider>
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </UserProvider>
+    )
 }
 
 export default App

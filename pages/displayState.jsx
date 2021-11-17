@@ -1,9 +1,10 @@
 import React from 'react';
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const DisplayState = () => {
-    return (
-        <div>Display State</div>
-    )
-}
+export default withPageAuthRequired(function DisplayState(){
+    return <>
+        <h1>Display State</h1>
 
-export default DisplayState
+
+    </>
+})
