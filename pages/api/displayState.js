@@ -5,7 +5,7 @@ import createAsertoClient from '@aserto/aserto-spa-js';
 
 export default withApiAuthRequired(async function shows(req, res) {
     try {
-        const apiOrigin = "http://localhost:3001"
+        const apiOrigin = process.env.NETLIFY ? `${process.env.URL}/.netlify/functions/api-server` : "http://localhost:3001"
         const { accessToken } = await getAccessToken(req, res);
 
         const aserto = await createAsertoClient({

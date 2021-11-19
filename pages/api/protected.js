@@ -2,7 +2,7 @@ import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 export default withApiAuthRequired(async function shows(req, res) {
     try {
-        const apiOrigin = `http://localhost:3001`
+        const apiOrigin = process.env.NETLIFY ? `${process.env.URL}/.netlify/functions/api-server` : "http://localhost:3001"
         const { accessToken } = await getAccessToken(req, res);
         const response = await fetch(`${apiOrigin}/api/protected`, {
             headers: {

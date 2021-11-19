@@ -16,7 +16,9 @@ const port = process.env.API_PORT || 3001;
 const baseUrl = process.env.AUTH0_BASE_URL;
 const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
 const audience = process.env.AUTH0_AUDIENCE;
-const routerBasePath = '/';
+const isNetlify = process.env.NETLIFY;
+const routerBasePath = isNetlify ? '/.netlify/functions/api-server' : '/';
+
 
 //Aserto authorizer configuration
 const authzOptions = {
@@ -65,4 +67,10 @@ router.get('/api/protected', checkJwt, checkAuthz, (req, res) => {
 
 app.use(routerBasePath, router);
 
-const server = app.listen(port, () => console.log(`API Server listening on port ${port}`));
+if (isNetlify) {
+    const serverless = require("serverless-http");
+    exports.handler = serverless(app);
+} else {
+    const server = app.listen(port, () => console.log(`API Server listening on port ${port}`));
+    process.on('SIGINT', () => server.close());
+}

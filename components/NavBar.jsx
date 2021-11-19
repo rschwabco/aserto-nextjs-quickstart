@@ -6,16 +6,13 @@ import {
     Collapse,
     Nav,
     NavItem,
-    NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    NavbarText
-
+    NavLink
 } from 'reactstrap'
 import { useUser } from '@auth0/nextjs-auth0';
 import AnchorLink from './AnchorLink';
+import Image from 'next/image'
+import styles from '../styles/NavBar.module.css'
+
 
 const NavBar = () => {
     const { user, isLoading } = useUser();
@@ -61,9 +58,8 @@ const NavBar = () => {
               )}
               {user && (
                 <Nav>
-                    <NavItem>
-                      <span className="user-info">
-                        <img
+                    <NavItem className={styles.userimage}>
+                        <Image
                           src={user.picture}
                           alt="Profile"
                           className="nav-user-profile d-inline-block rounded-circle mr-3"
@@ -72,10 +68,11 @@ const NavBar = () => {
                           decode="async"
                           data-testid="navbar-picture-mobile"
                         />
-                        <h6 className="d-inline-block" data-testid="navbar-user-mobile">
+                    </NavItem>
+                    <NavItem className={styles.username}>
+                      <span className="d-inline-block" data-testid="navbar-user-mobile">
                           {user.name}
-                        </h6>
-                      </span>
+                        </span>
                     </NavItem>
                     <NavItem id="qsLogoutBtn">
                       <AnchorLink
