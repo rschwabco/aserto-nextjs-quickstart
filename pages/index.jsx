@@ -7,14 +7,12 @@ export default function Home() {
         <div className={styles.container}>
             <Head>
                 <title>Aserto Demo App</title>
-
             </Head>
 
             <main className={styles.main}>
                 <h1 className={styles.title}>
                     Welcome to <a href="https://aserto.com">Aserto!</a>
                 </h1>
-
             </main>
         </div>
     )
