@@ -9,7 +9,6 @@ const jwksRsa = require('jwks-rsa');
 const { displayStateMap, jwtAuthz } = require('express-jwt-aserto');
 
 const bodyParser = require('body-parser');
-
 const app = express();
 const router = express.Router();
 const port = process.env.API_PORT || 3001;
@@ -18,18 +17,6 @@ const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
 const audience = process.env.AUTH0_AUDIENCE;
 const isNetlify = process.env.NETLIFY;
 const routerBasePath = isNetlify ? '/.netlify/functions/api-server' : '/';
-
-
-//Aserto authorizer configuration
-const authzOptions = {
-    authorizerServiceUrl: process.env.AUTHORIZER_SERVICE_URL,
-    policyId: process.env.POLICY_ID,
-    policyRoot: process.env.POLICY_ROOT,
-    authorizerApiKey: process.env.AUTHORIZER_API_KEY,
-    tenantId: process.env.TENANT_ID
-};
-//Aserto authorizer middleware function
-const checkAuthz = jwtAuthz(authzOptions)
 
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -43,12 +30,25 @@ const checkJwt = jwt({
     algorithms: ['RS256']
 });
 
+//Aserto authorizer configuration
+const authzOptions = {
+    authorizerServiceUrl: process.env.AUTHORIZER_SERVICE_URL,
+    policyId: process.env.POLICY_ID,
+    policyRoot: process.env.POLICY_ROOT,
+    authorizerApiKey: process.env.AUTHORIZER_API_KEY,
+    tenantId: process.env.TENANT_ID
+};
+//Aserto authorizer middleware function
+const checkAuthz = jwtAuthz(authzOptions)
+
+
+
 if (!baseUrl || !issuerBaseUrl) {
-    throw new Error('Please make sure that the file .env.local is in place and populated');
+    throw new Error('Please make sure that the file .env is in place and populated');
 }
 
 if (!audience) {
-    console.log('AUTH0_AUDIENCE not set in .env.local. Shutting down API server.');
+    console.log('AUTH0_AUDIENCE not set in .env. Shutting down API server.');
     process.exit(1);
 }
 

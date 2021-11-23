@@ -13,7 +13,11 @@ export default withPageAuthRequired(function DisplayState(){
     useEffect(() => {
         const getDisplayState = async () => {
             try {
-              const response = await fetch('/api/displayState');
+              const response = await fetch('/api/displayState',
+                {   method: 'POST',
+                    body: JSON.stringify({ path: '/api/protected', method: 'GET'})
+                }
+              );
               const data = await response.json();
               setState(previous => ({ ...previous, response: data, error: undefined }))
             } catch (error) {
@@ -21,14 +25,15 @@ export default withPageAuthRequired(function DisplayState(){
             }
         }
 
-         getDisplayState()
+        getDisplayState()
     }, [])
 
     return (
         <>
             <h1>Display State</h1>
             <div className="mt-3">
-                <Button color={state.response?.enabled ? 'primary' : 'secondary'} disabled={!state.response?.enabled} onClick={() => {setIsModalOpen(true)}} >Press me if you can</Button>
+                <Button color={state.response?.enabled ? 'primary' : 'secondary'}
+                disabled={!state.response?.enabled} onClick={() => {setIsModalOpen(true)}} >Press me if you can</Button>
                 {state.response?.visible && <h3>This message is visible only to Executives</h3>}
             </div>
             {state.error && (

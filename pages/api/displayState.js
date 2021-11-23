@@ -5,6 +5,7 @@ import createAsertoClient from '@aserto/aserto-spa-js';
 
 export default withApiAuthRequired(async function shows(req, res) {
     try {
+        const { method, path } = JSON.parse(req.body)
         const apiOrigin = process.env.NETLIFY ? `${process.env.URL}/.netlify/functions/api-server` : "http://localhost:3001"
         const { accessToken } = await getAccessToken(req, res);
 
@@ -15,8 +16,11 @@ export default withApiAuthRequired(async function shows(req, res) {
             endpoint: '/__displaystatemap'   // access map endpoint, defaults to /__displaystatemap
         });
 
-        res.status(200).json(aserto.getDisplayState('GET', '/api/protected', process.env.POLICY_ROOT));
-
+        try {
+            res.status(200).json(aserto.getDisplayState(method, path, process.env.POLICY_ROOT));
+        } catch (e) {
+            res.status(500).json({ msg: 'Error while trying to resolve display state map' })
+        }
 
     } catch (error) {
         res.status(error.status || 500).json({ error: error.message });
