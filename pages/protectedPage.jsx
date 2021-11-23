@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import styles from '../styles/ProtectedPage.module.css'
 
-
-const ProtectedPage = () => {
+export default function ProtectedPage(){
     return (
-        <div>Protected Page</div>
+        <div className={styles.main}>
+            <div className={styles.topMain}>
+                <div className={styles.pageHeader}>
+                    <h1>Protected Page</h1>
+                </div>
+                <div>
+                    {/* Button to be added here */}
+                </div>
+
+            </div>
+            <div className={styles.centerMain}>
+                <div className={styles.welcomeMessage}>
+                    {/* `visible` message to be added here */}
+                </div>
+
+                <div className="mt-3">
+                   {/* Access messages to be added here */}
+                </div>
+
+                <div className="mt-3">
+                   {/* Error message to be added here */}
+                </div>
+            </div>
+
+        </div>
     )
 }
-
-export default ProtectedPage
