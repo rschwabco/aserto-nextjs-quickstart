@@ -2,9 +2,9 @@
   "name": "nextjs-aserto-demo",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"node service/api-server\"",
+    "dev": "next dev",
     "build": "next build",
-    "start": "concurrently \"next start\" \"node service/api-server\"",
+    "start": "next start",
     "start:api": "node service/api-server",
     "lint": "next lint"
   },
