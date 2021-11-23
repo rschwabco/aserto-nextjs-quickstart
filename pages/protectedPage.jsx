@@ -48,16 +48,16 @@ export default withPageAuthRequired(function ProtectedPage(){
             >
               Fetch protected resource
             </Button>
-            <p className="mt-3">
+            <div className="mt-3">
                 {state.response?.msg}
-            </p>
-            <p>
+            </div>
+            <div>
                 {state.displayState?.visible && <h3>This message is visible only to Executives</h3>}
-            </p>
+            </div>
             {state.error && (
-                <p className="mt-3">
+                <div className="mt-3">
                     {state.error}
-                </p>
+                </div>
             )}
         </>
     )
