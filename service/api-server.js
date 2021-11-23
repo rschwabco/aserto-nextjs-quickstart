@@ -12,10 +12,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = express.Router();
 const port = process.env.API_PORT || 3001;
-const baseUrl = process.env.AUTH0_BASE_URL;
 const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
 const audience = process.env.AUTH0_AUDIENCE;
 const isNetlify = process.env.NETLIFY;
+const baseUrl = isNetlify ? process.env.URL : process.env.AUTH0_BASE_URL;
 const routerBasePath = isNetlify ? '/.netlify/functions/api-server' : '/';
 
 const checkJwt = jwt({
