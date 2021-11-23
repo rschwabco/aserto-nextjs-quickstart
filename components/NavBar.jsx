@@ -19,12 +19,15 @@ const NavBar = () => {
     return (
         <div>
           <Navbar
-            color="light"
             expand="md"
-            light
+            dark
+            className={styles.navbar}
           >
             <NavbarBrand href="/">
-              Aserto
+              <div className={styles.logoContainer}>
+                  <span className={styles.logo}></span>
+                  <span className={styles.brandName}></span>
+              </div>
             </NavbarBrand>
             <NavbarToggler onClick={function noRefCheck(){}} />
             <Collapse navbar>
@@ -35,11 +38,6 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink href="/protectedPage/">
                     Protected Page
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/displayState">
-                    Display State
                   </NavLink>
                 </NavItem>
               </Nav>

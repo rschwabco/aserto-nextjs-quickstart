@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { Button } from 'reactstrap';
+import styles from '../styles/ProtectedPage.module.css'
+
 
 export default withPageAuthRequired(function ProtectedPage(){
     const [state, setState] = useState({ response: undefined, error: undefined, displayState: undefined });
@@ -8,9 +10,10 @@ export default withPageAuthRequired(function ProtectedPage(){
     const fetchApi = async () => {
         try {
           const response = await fetch('/api/protected');
+          const { status } = response
           const data = await response.json();
 
-          setState(previous => ({ ...previous, response: data, error: undefined }))
+          setState(previous => ({ ...previous, response: data, error: undefined, status }))
         } catch (error) {
           setState(previous => ({ ...previous, response: undefined, error }))
         }
@@ -34,31 +37,66 @@ export default withPageAuthRequired(function ProtectedPage(){
         getDisplayState()
     }, [])
 
+    const { response, displayState, status, error } = state
+
     return (
-        <>
-            <h1>Protected Page</h1>
-            <Button className="mt-1"
-                onClick={e => {
-                    e.preventDefault()
-                    fetchApi()
-                }}
-                data-testid="external-action"
-                color={state.displayState?.enabled ? 'primary' : 'secondary'}
-                disabled={!state.displayState?.enabled}
-            >
-              Fetch protected resource
-            </Button>
-            <div className="mt-3">
-                {state.response?.msg}
+        <div className={styles.main}>
+            <div className={styles.topMain}>
+                <div className={styles.pageHeader}>
+                    <h1>Protected Page</h1>
+                </div>
+                <div>
+                    <Button className="mt-1"
+                        onClick={e => {
+                            e.preventDefault()
+                            fetchApi()
+                        }}
+                        data-testid="external-action"
+                        color={displayState?.enabled ? 'primary' : 'secondary'}
+                        disabled={!displayState?.enabled}
+                    >
+                      Fetch protected resource
+                    </Button>
+                </div>
+
             </div>
-            <div>
-                {state.displayState?.visible && <h3>This message is visible only to Executives</h3>}
-            </div>
-            {state.error && (
+            <div className={styles.centerMain}>
+                <div className={styles.welcomeMessage}>
+                    {displayState?.visible && <h6>This message is visible only to Executives</h6>}
+                </div>
+
                 <div className="mt-3">
-                    {state.error}
+                    {status !== 500 && status !== 403 && response?.msg &&
+                        <div>
+                            <div className={styles.lottie}></div>
+                            <div>
+                                {response.msg}
+                            </div>
+                        </div>
+                    }
+                    {status === 403 &&
+                        <div>
+                            <div className={styles.sadLottie}></div>
+                            <div>
+                                Access is forbidden for this user.
+                            </div>
+                        </div>
+                    }
+                    {status === 500 &&
+                        <div>
+                            <div className={styles.sadLottie}></div>
+                            <div>
+                                An error has occurred.
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            {error && (
+                <div className="mt-3">
+                    {error}
                 </div>
             )}
-        </>
+        </div>
     )
 })
