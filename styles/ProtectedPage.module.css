@@ -1,5 +1,6 @@
 .main {
     background-color: #121212;
+    color: white;
     grid-area: main;
     padding: 10px;
     display: grid;
