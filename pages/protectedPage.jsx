@@ -3,7 +3,6 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { Button } from 'reactstrap';
 import styles from '../styles/ProtectedPage.module.css'
 
-
 export default withPageAuthRequired(function ProtectedPage(){
     const [state, setState] = useState({ response: undefined, error: undefined, displayState: undefined });
 
@@ -52,6 +51,7 @@ export default withPageAuthRequired(function ProtectedPage(){
                             fetchApi()
                         }}
                         data-testid="external-action"
+                        // color="primary"
                         color={displayState?.enabled ? 'primary' : 'secondary'}
                         disabled={!displayState?.enabled}
                     >

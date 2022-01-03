@@ -5,3 +5,16 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[template.environment]
+  AUTH0_SECRET = " Auth0 Secret "
+  AUTH0_ISSUER_BASE_URL= " Issuer Base URL "
+  AUTH0_CLIENT_ID= " Auth0 Client ID "
+  AUTH0_CLIENT_SECRET= " Auth0 Client Secret "
+  AUTH0_AUDIENCE= " Auth0 Audience "
+  AUTH0_SCOPE= " Auth0 Scope "
+  POLICY_ID= " Policy ID "
+  POLICY_ROOT= " Policy Root "
+  AUTHORIZER_API_KEY= " Authorizer API Key "
+  TENANT_ID= " Tenant ID "
+  AUTHORIZER_SERVICE_URL= " Authorizer Service URL "
